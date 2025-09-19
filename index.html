@@ -1,142 +1,290 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Basic Calculator</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Name — Portfolio</title>
+  <meta name="description" content="Portfolio of Your Name — web developer, designer, etc." />
+  <!-- Google Font (optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #f3f3f3;
-      font-family: Arial, sans-serif;
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#98a0b3;
+      --accent:#6ee7b7;
+      --white:#f8fafc;
+      --container:1100px;
     }
-
-    .calculator {
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      width: 260px;
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,#071226 0%, #071224 100%);
+      color:var(--white);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
     }
-
-    .display {
-      width: 100%;
-      height: 50px;
-      margin-bottom: 15px;
-      padding: 10px;
-      font-size: 1.5rem;
-      text-align: right;
-      border: none;
-      background: #eee;
-      border-radius: 8px;
+    .wrap{max-width:var(--container);margin:0 auto;padding:24px;}
+    header{
+      position:sticky; top:0; z-index:40;
+      background:rgba(7,18,36,0.6);
+      backdrop-filter: blur(6px);
+      border-bottom:1px solid rgba(255,255,255,0.03);
     }
-
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+    nav{display:flex;align-items:center;justify-content:space-between;padding:10px 0;}
+    .brand{display:flex;gap:12px;align-items:center}
+    .brand .logo{
+      width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#60a5fa);
+      display:grid;place-items:center;font-weight:700;color:#042029;
     }
-
-    button {
-      padding: 20px;
-      font-size: 1.2rem;
-      border: none;
-      border-radius: 8px;
-      background: #007bff;
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s;
+    .navlinks{display:flex;gap:18px;align-items:center}
+    .navlinks a{color:var(--muted);text-decoration:none;font-weight:600;font-size:14px}
+    .btn-primary{background:var(--accent);color:#042029;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+    .hero{display:grid;grid-template-columns:1fr;gap:22px;align-items:center;padding:48px 0;}
+    .hero-inner{display:flex;flex-direction:column;gap:12px}
+    .hero h1{font-size:clamp(28px,6vw,44px);margin:0}
+    .hero p.lead{color:var(--muted);max-width:70ch;margin:0}
+    .actions{display:flex;gap:12px;margin-top:12px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    /* Two-column about */
+    .about{display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:center;margin-top:18px}
+    .me{
+      width:100%;
+      max-width:320px;
+      aspect-ratio:1/1;
+      overflow:hidden;border-radius:12px;
+      display:grid;place-items:center;
+      border:1px solid rgba(255,255,255,0.04);
     }
-
-    button:hover {
-      background: #0056b3;
+    .me img{width:100%;height:100%;object-fit:cover;display:block}
+    .bio h2{margin:0 0 8px 0}
+    .bio p{color:var(--muted);margin:0}
+    /* Skills */
+    .skills{margin-top:20px;display:grid;gap:10px}
+    .skill{display:flex;flex-direction:column;gap:6px}
+    .skill .meta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+    .progress{height:10px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden}
+    .progress > span{display:block;height:100%;width:var(--w,60%);background:linear-gradient(90deg,var(--accent),#60a5fa);border-radius:999px}
+    /* Projects grid */
+    .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+    .proj{display:flex;flex-direction:column;background:var(--card);border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
+    .proj img{width:100%;height:160px;object-fit:cover}
+    .proj .pcontent{padding:12px}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--muted)}
+    .proj-actions{display:flex;gap:8px;margin-top:12px}
+    .small-btn{padding:8px 10px;border-radius:8px;text-decoration:none;background:rgba(255,255,255,0.03);color:var(--white);font-weight:600;font-size:14px}
+    /* Resume/Contact */
+    .resume-contact{display:grid;grid-template-columns:1fr 320px;gap:16px;margin-top:18px}
+    .contact-card{padding:16px}
+    /* Footer */
+    footer{margin-top:40px;padding:18px 0;color:var(--muted);font-size:14px;text-align:center}
+    /* Responsive */
+    @media (max-width:980px){
+      .projects{grid-template-columns:repeat(2,1fr)}
+      .about{grid-template-columns:1fr;align-items:start}
+      .resume-contact{grid-template-columns:1fr}
     }
-
-    .operator {
-      background: #28a745;
+    @media (max-width:640px){
+      .navlinks{display:none}
+      .hero{padding:24px 0}
+      .projects{grid-template-columns:1fr}
     }
-
-    .operator:hover {
-      background: #1e7e34;
-    }
-
-    .equal {
-      grid-column: span 2;
-      background: #ffc107;
-      color: #000;
-    }
-
-    .equal:hover {
-      background: #e0a800;
-    }
-
-    .clear {
-      background: #dc3545;
-    }
-
-    .clear:hover {
-      background: #a71d2a;
-    }
+    /* small utility */
+    .muted{color:var(--muted)}
   </style>
 </head>
 <body>
-  <div class="calculator">
-    <input type="text" id="display" class="display" disabled>
-    <div class="buttons">
-      <button class="clear">C</button>
-      <button>/</button>
-      <button>*</button>
-      <button>-</button>
+  <header>
+    <div class="wrap">
+      <nav aria-label="Main navigation">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">YN</div>
+          <div>
+            <div style="font-weight:700">Your Name</div>
+            <div style="font-size:12px;color:var(--muted)">Web Developer • UI enthusiast</div>
+          </div>
+        </div>
 
-      <button>7</button>
-      <button>8</button>
-      <button>9</button>
-      <button class="operator">+</button>
+        <div class="navlinks" role="navigation" aria-label="Section links">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#resume">Resume</a>
+          <a href="#contact">Contact</a>
+        </div>
 
-      <button>4</button>
-      <button>5</button>
-      <button>6</button>
-      <button>.</button>
-
-      <button>1</button>
-      <button>2</button>
-      <button>3</button>
-      <button class="equal">=</button>
-
-      <button>0</button>
+        <a class="btn-primary" href="#projects">View Projects</a>
+      </nav>
     </div>
-  </div>
+  </header>
+
+  <main class="wrap" id="top">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-inner card">
+        <h1 id="hero-heading">Hi — I'm Your Name</h1>
+        <p class="lead">I build accessible, responsive websites and delightful UI. I specialize in front-end development (HTML, CSS, JS) and creating clean product interfaces.</p>
+        <p class="muted">Location: Kolkata, India • Open to remote work</p>
+        <div class="actions">
+          <a class="btn-primary" href="#projects">See work</a>
+          <a class="small-btn" href="#contact">Contact me</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="card about" aria-labelledby="about-heading">
+      <div class="me" aria-hidden="false">
+        <!-- Replace src with your image file path (assets/me.jpg) -->
+        <img src="assets/me.jpg" alt="Your Name — portrait photo">
+      </div>
+      <div class="bio">
+        <h2 id="about-heading">About me</h2>
+        <p>Hello! I'm <strong>Your Name</strong>. I build front-end experiences and small apps. I love writing clean CSS, making responsive layouts, and improving UX.</p>
+        <p style="margin-top:12px;color:var(--muted)">A few highlights:
+          <ul style="color:var(--muted);margin-top:8px">
+            <li>3+ years building responsive websites</li>
+            <li>Comfortable with HTML, CSS, JS, React</li>
+            <li>Worked with small teams & startups</li>
+          </ul>
+        </p>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="card skills" aria-labelledby="skills-heading">
+      <h2 id="skills-heading">Skills</h2>
+
+      <div class="skill">
+        <div class="meta"><span>HTML & CSS</span><span>90%</span></div>
+        <div class="progress"><span style="--w:90%"></span></div>
+      </div>
+
+      <div class="skill">
+        <div class="meta"><span>JavaScript</span><span>80%</span></div>
+        <div class="progress"><span style="--w:80%"></span></div>
+      </div>
+
+      <div class="skill">
+        <div class="meta"><span>React</span><span>75%</span></div>
+        <div class="progress"><span style="--w:75%"></span></div>
+      </div>
+
+      <div class="skill">
+        <div class="meta"><span>UI / Visual Design</span><span>70%</span></div>
+        <div class="progress"><span style="--w:70%"></span></div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="card">
+      <h2>Projects</h2>
+      <div class="projects" role="list">
+        <!-- Project 1 -->
+        <article class="proj" role="listitem">
+          <img src="assets/proj1.jpg" alt="Screenshot of Project One">
+          <div class="pcontent">
+            <h3>Project One</h3>
+            <p class="muted">A short one-line about what the project does and why it's cool.</p>
+            <div class="tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JS</span>
+            </div>
+            <div class="proj-actions">
+              <a class="small-btn" href="#" target="_blank" rel="noopener">Live</a>
+              <a class="small-btn" href="#" target="_blank" rel="noopener">Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="proj" role="listitem">
+          <img src="assets/proj2.jpg" alt="Screenshot of Project Two">
+          <div class="pcontent">
+            <h3>Project Two</h3>
+            <p class="muted">One line describing tech or problem solved.</p>
+            <div class="tags">
+              <span class="tag">React</span>
+              <span class="tag">API</span>
+            </div>
+            <div class="proj-actions">
+              <a class="small-btn" href="#" target="_blank" rel="noopener">Live</a>
+              <a class="small-btn" href="#" target="_blank" rel="noopener">Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="proj" role="listitem">
+          <img src="assets/proj3.jpg" alt="Screenshot of Project Three">
+          <div class="pcontent">
+            <h3>Project Three</h3>
+            <p class="muted">Short summary of what you built and key features.</p>
+            <div class="tags">
+              <span class="tag">Design</span>
+              <span class="tag">Prototype</span>
+            </div>
+            <div class="proj-actions">
+              <a class="small-btn" href="#" target="_blank" rel="noopener">Live</a>
+              <a class="small-btn" href="#" target="_blank" rel="noopener">Code</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Resume & Contact -->
+    <section class="resume-contact" aria-label="Resume and contact">
+      <div class="card">
+        <h2 id="resume">Resume</h2>
+        <p class="muted">Download a PDF copy of my resume or view it in a new tab.</p>
+        <!-- Place your resume file at assets/resume.pdf -->
+        <p style="margin-top:12px">
+          <a class="btn-primary" href="assets/resume.pdf" download>Download Resume (PDF)</a>
+          <a class="small-btn" href="assets/resume.pdf" target="_blank" rel="noopener" style="margin-left:8px">View</a>
+        </p>
+      </div>
+
+      <aside class="card contact-card" id="contact" aria-labelledby="contact-heading">
+        <h2 id="contact-heading">Contact</h2>
+        <p class="muted">Email or call to discuss projects, freelance work, or full-time opportunities.</p>
+
+        <p style="margin-top:12px"><strong>Email:</strong> <a href="mailto:you@example.com">you@example.com</a></p>
+        <p><strong>Phone:</strong> <a href="tel:+919000000000">+91 90000 00000</a></p>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:12px 0">
+
+        <h3 style="margin:0 0 8px 0">Quick message</h3>
+        <!-- If you want a form, replace FORM_ACTION with your Formspree or Netlify URL -->
+        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <label style="display:block;margin-bottom:6px;font-size:14px">Name</label>
+          <input type="text" name="name" required style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--white)">
+
+          <label style="display:block;margin:8px 0 6px 0;font-size:14px">Email</label>
+          <input type="email" name="_replyto" required style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--white)">
+
+          <label style="display:block;margin:8px 0 6px 0;font-size:14px">Message</label>
+          <textarea name="message" rows="4" required style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--white)"></textarea>
+
+          <button type="submit" class="btn-primary" style="margin-top:8px">Send</button>
+        </form>
+        <p class="muted" style="font-size:13px;margin-top:8px">Form requires a service (Formspree / Netlify Forms) or remove the form and use the email link above.</p>
+      </aside>
+    </section>
+
+    <footer>
+      <div>&copy; <span id="year"></span> Your Name — Built with ❤️ • <a href="#" style="color:var(--muted);text-decoration:underline">Privacy</a></div>
+    </footer>
+  </main>
 
   <script>
-    const display = document.getElementById("display");
-    const buttons = document.querySelectorAll("button");
-
-    let currentInput = "";
-
-    buttons.forEach(button => {
-      button.addEventListener("click", () => {
-        const value = button.textContent;
-
-        if (value === "C") {
-          currentInput = "";
-          display.value = "";
-        } else if (value === "=") {
-          try {
-            currentInput = eval(currentInput).toString(); // use eval for simplicity
-            display.value = currentInput;
-          } catch {
-            display.value = "Error";
-            currentInput = "";
-          }
-        } else {
-          currentInput += value;
-          display.value = currentInput;
-        }
-      });
-    });
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
